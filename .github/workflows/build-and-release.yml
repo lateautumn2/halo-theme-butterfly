@@ -32,5 +32,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: theme-butterfly-dist.zip
+          tag_name: v2.0.7
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
