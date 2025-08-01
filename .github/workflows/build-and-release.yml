@@ -1,0 +1,35 @@
+name: Build and Release Halo Theme
+
+on:
+  push:
+    tags:
+      - 'v*'  # 只有打 tag 的时候触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Theme via Gulp
+        run: npx gulp default
+
+      - name: Compress Theme
+        run: npx gulp zip
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: theme-butterfly-dist.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
